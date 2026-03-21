@@ -105,8 +105,8 @@
       <style>
         .carousel { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
         .carousel-track { display: flex; height: 100%; transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .carousel-slide { min-width: 100%; height: 100%; }
-        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .carousel-slide { min-width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
+        .carousel-slide img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
         .carousel-progress { width: 100%; height: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
         .carousel-progress .bar { height: 100%; width: 0%; background: #fff; transition: width 0.1s linear; }
         .carousel-dots { display: flex; justify-content: center; gap: 10px; margin-top: 1.2rem; }
@@ -117,7 +117,6 @@
         <div class="carousel-track" id="track">
           <div class="carousel-slide"><img src="reporting.jpg" alt="Jack Stankey Reporting"></div>
           <div class="carousel-slide"><img src="photo2.jpg" alt="Photo 2"></div>
-          <div class="carousel-slide"><img src="photo3.jpg" alt="Photo 3"></div>
           <div class="carousel-slide"><img src="foul-territory.jpg" alt="Foul Territory"></div>
           <div class="carousel-slide"><img src="maccabi.jpg" alt="Maccabi"></div>
           <div class="carousel-slide"><img src="ncc-logo.png" alt="NCC News"></div>
