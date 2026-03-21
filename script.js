@@ -1,10 +1,9 @@
 // ==========================================
-// JACK STANKEY MEDIA — script.js
+// JACK STANKEY MEDIA â script.js
 // ==========================================
 
 // --- Nav: solid background on scroll ---
 const navbar = document.getElementById('navbar');
-
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
@@ -26,7 +25,7 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-// --- Scroll reveal ---
+// --- Scroll reveal (trigger earlier so content is visible sooner) ---
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -34,26 +33,33 @@ const revealObserver = new IntersectionObserver((entries) => {
       revealObserver.unobserve(entry.target);
     }
   });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -48px 0px'
-});
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// --- Active nav link highlighting ---
+// --- Active nav link highlighting (scroll-based, not intersection) ---
 const sections   = document.querySelectorAll('section[id]');
 const navAnchors = document.querySelectorAll('.nav-links a');
 
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute('id');
-      navAnchors.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
-      });
+function updateActiveNav() {
+  const scrollY = window.scrollY + window.innerHeight * 0.35;
+  let currentId = '';
+
+  sections.forEach(section => {
+    const top = section.offsetTop;
+    const bottom = top + section.offsetHeight;
+    if (scrollY >= top && scrollY < bottom) {
+      currentId = section.getAttribute('id');
     }
   });
-}, { threshold: 0.35 });
 
-sections.forEach(s => sectionObserver.observe(s));
+  // If we're near the top, default to home
+  if (window.scrollY < 100) currentId = 'home';
+
+  navAnchors.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === `#${currentId}`);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
