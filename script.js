@@ -1,5 +1,5 @@
 // ==========================================
-// JACK STANKEY MEDIA â script.js
+// JACK STANKEY MEDIA — script.js
 // ==========================================
 
 // --- Nav: solid background on scroll ---
@@ -25,7 +25,7 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-// --- Scroll reveal (trigger earlier so content is visible sooner) ---
+// --- Scroll reveal ---
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -33,33 +33,82 @@ const revealObserver = new IntersectionObserver((entries) => {
       revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// --- Active nav link highlighting (scroll-based, not intersection) ---
+// --- Active nav link highlighting ---
 const sections   = document.querySelectorAll('section[id]');
 const navAnchors = document.querySelectorAll('.nav-links a');
 
-function updateActiveNav() {
-  const scrollY = window.scrollY + window.innerHeight * 0.35;
-  let currentId = '';
-
-  sections.forEach(section => {
-    const top = section.offsetTop;
-    const bottom = top + section.offsetHeight;
-    if (scrollY >= top && scrollY < bottom) {
-      currentId = section.getAttribute('id');
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navAnchors.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+      });
     }
   });
+}, { threshold: 0.35 });
 
-  // If we're near the top, default to home
-  if (window.scrollY < 100) currentId = 'home';
+sections.forEach(s => sectionObserver.observe(s));
 
-  navAnchors.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === `#${currentId}`);
+// --- Photo Carousel ---
+(() => {
+  const track = document.getElementById('track');
+  const dotsContainer = document.getElementById('dots');
+  const progressBar = document.getElementById('progressBar');
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  let current = 0;
+  const intervalTime = 4000;
+  let timer, progressTimer, progressStart;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
   });
-}
+  const dots = dotsContainer.querySelectorAll('.dot');
 
-window.addEventListener('scroll', updateActiveNav, { passive: true });
-updateActiveNav();
+  function goTo(index) {
+    current = index;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    resetTimer();
+  }
+  function next() { goTo((current + 1) % total); }
+  function animateProgress() {
+    progressStart = performance.now();
+    cancelAnimationFrame(progressTimer);
+    function step(now) {
+      const pct = Math.min(((now - progressStart) / intervalTime) * 100, 100);
+      progressBar.style.width = pct + '%';
+      if (pct < 100) progressTimer = requestAnimationFrame(step);
+    }
+    progressTimer = requestAnimationFrame(step);
+  }
+  function resetTimer() {
+    clearInterval(timer);
+    cancelAnimationFrame(progressTimer);
+    progressBar.style.width = '0%';
+    animateProgress();
+    timer = setInterval(next, intervalTime);
+  }
+
+  const carousel = document.getElementById('carousel');
+  carousel.addEventListener('mouseenter', () => { clearInterval(timer); cancelAnimationFrame(progressTimer); });
+  carousel.addEventListener('mouseleave', () => resetTimer());
+
+  let touchStartX = 0;
+  carousel.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(diff) > 50) diff < 0 ? goTo((current + 1) % total) : goTo((current - 1 + total) % total);
+  }, { passive: true });
+
+  resetTimer();
+})();
