@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jack Stankey | Multimedia Journalist</title>
+  <meta name="description" content="Jack Stankey is a multimedia journalist and broadcast reporter specializing in broadcast, digital, and live production. View his video, audio, and written work.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,95 +101,25 @@
   </section>
 
   <!-- Photo Carousel -->
-  <section class="section" style="padding: 4rem 0; background: #0a0a0a;">
-    <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 1rem;">
-      <style>
-        .carousel { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
-        .carousel-track { display: flex; height: 100%; transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .carousel-slide { min-width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
-        .carousel-slide img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-        .carousel-progress { width: 100%; height: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
-        .carousel-progress .bar { height: 100%; width: 0%; background: #fff; transition: width 0.1s linear; }
-        .carousel-dots { display: flex; justify-content: center; gap: 10px; margin-top: 1.2rem; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); border: none; cursor: pointer; transition: background 0.3s, transform 0.3s; }
-        .dot.active { background: #fff; transform: scale(1.25); }
-      </style>
+  <section class="section-carousel">
+    <div class="carousel-wrap">
       <div class="carousel" id="carousel">
         <div class="carousel-track" id="track">
-          <div class="carousel-slide"><img src="reporting.jpg" alt="Jack Stankey Reporting"></div>
-          <div class="carousel-slide"><img src="photo2.jpg" alt="Photo 2"></div>
-          <div class="carousel-slide"><img src="foul-territory.jpg" alt="Foul Territory"></div>
-          <div class="carousel-slide"><img src="maccabi.jpg" alt="Maccabi"></div>
-          <div class="carousel-slide"><img src="ncc-logo.png" alt="NCC News"></div>
-          <div class="carousel-slide"><img src="daily-orange-logo.png" alt="The Daily Orange"></div>
+          <div class="carousel-slide"><img src="reporting.jpg" alt="Jack Stankey on-location reporting"></div>
+          <div class="carousel-slide"><img src="photo2.jpg" loading="lazy" alt="Jack Stankey headshot"></div>
+          <div class="carousel-slide"><img src="foul-territory.jpg" loading="lazy" alt="Jack Stankey at Foul Territory"></div>
+          <div class="carousel-slide"><img src="maccabi.jpg" loading="lazy" alt="Jack Stankey at Maccabi USA"></div>
+          <div class="carousel-slide"><img src="ncc-logo.png" loading="lazy" alt="NCC News"></div>
+          <div class="carousel-slide"><img src="daily-orange-logo.png" loading="lazy" alt="The Daily Orange"></div>
         </div>
       </div>
       <div class="carousel-progress"><div class="bar" id="progressBar"></div></div>
       <div class="carousel-dots" id="dots"></div>
     </div>
-    <script>
-      (() => {
-        const track = document.getElementById('track');
-        const dotsContainer = document.getElementById('dots');
-        const progressBar = document.getElementById('progressBar');
-        const slides = track.querySelectorAll('.carousel-slide');
-        const total = slides.length;
-        let current = 0;
-        const intervalTime = 4000;
-        let timer, progressTimer, progressStart;
-
-        slides.forEach((_, i) => {
-          const dot = document.createElement('button');
-          dot.classList.add('dot');
-          if (i === 0) dot.classList.add('active');
-          dot.addEventListener('click', () => goTo(i));
-          dotsContainer.appendChild(dot);
-        });
-        const dots = dotsContainer.querySelectorAll('.dot');
-
-        function goTo(index) {
-          current = index;
-          track.style.transform = 'translateX(-' + (current * 100) + '%)';
-          dots.forEach((d, i) => d.classList.toggle('active', i === current));
-          resetTimer();
-        }
-        function next() { goTo((current + 1) % total); }
-        function animateProgress() {
-          progressStart = performance.now();
-          cancelAnimationFrame(progressTimer);
-          function step(now) {
-            const pct = Math.min(((now - progressStart) / intervalTime) * 100, 100);
-            progressBar.style.width = pct + '%';
-            if (pct < 100) progressTimer = requestAnimationFrame(step);
-          }
-          progressTimer = requestAnimationFrame(step);
-        }
-        function resetTimer() {
-          clearInterval(timer);
-          cancelAnimationFrame(progressTimer);
-          progressBar.style.width = '0%';
-          animateProgress();
-          timer = setInterval(next, intervalTime);
-        }
-
-        const carousel = document.getElementById('carousel');
-        carousel.addEventListener('mouseenter', () => { clearInterval(timer); cancelAnimationFrame(progressTimer); });
-        carousel.addEventListener('mouseleave', () => resetTimer());
-
-        let touchStartX = 0;
-        carousel.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-        carousel.addEventListener('touchend', e => {
-          const diff = e.changedTouches[0].screenX - touchStartX;
-          if (Math.abs(diff) > 50) diff < 0 ? goTo((current + 1) % total) : goTo((current - 1 + total) % total);
-        }, { passive: true });
-
-        resetTimer();
-      })();
-    </script>
   </section>
 
   <!-- Videos -->
-  <section id="videos" class="section section-dark" style="padding-bottom: 40px;">
+  <section id="videos" class="section section-dark">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Videos</span>
@@ -198,56 +129,56 @@
       <div class="video-grid">
         <a href="https://www.youtube.com/watch?v=CriLHNb_S6Q" target="_blank" class="video-card reveal">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/CriLHNb_S6Q/hqdefault.jpg" alt="Green Beer Sunday Returns to Tipp Hill">
+            <img loading="lazy" src="https://img.youtube.com/vi/CriLHNb_S6Q/hqdefault.jpg" alt="Green Beer Sunday Returns to Tipp Hill">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Green Beer Sunday Returns to Tipp Hill Ahead of St. Patrick's Day</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=-who0UN5O2E" target="_blank" class="video-card reveal delay-2">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/-who0UN5O2E/hqdefault.jpg" alt="City of Syracuse Career Fair">
+            <img loading="lazy" src="https://img.youtube.com/vi/-who0UN5O2E/hqdefault.jpg" alt="City of Syracuse Career Fair">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>City of Syracuse Career Fair Aims to Fill Vacant City Positions</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=sMLpKuXXzBM" target="_blank" class="video-card reveal">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/sMLpKuXXzBM/hqdefault.jpg" alt="Facing Climate Anxiety">
+            <img loading="lazy" src="https://img.youtube.com/vi/sMLpKuXXzBM/hqdefault.jpg" alt="Facing Climate Anxiety">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Facing Climate Anxiety: SUNY ESF Panel Reframes the Climate Crisis</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=hkAjuZEFE84" target="_blank" class="video-card reveal delay-1">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/hkAjuZEFE84/hqdefault.jpg" alt="McKinney Manor Redevelopment">
+            <img loading="lazy" src="https://img.youtube.com/vi/hkAjuZEFE84/hqdefault.jpg" alt="McKinney Manor Redevelopment">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Syracuse Housing Shakeup: McKinney Manor Residents Forced to Relocate</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=_Z1HHTmnPF0" target="_blank" class="video-card reveal delay-2">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/_Z1HHTmnPF0/hqdefault.jpg" alt="Auto Tariffs">
+            <img loading="lazy" src="https://img.youtube.com/vi/_Z1HHTmnPF0/hqdefault.jpg" alt="Auto Tariffs">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Auto Tariffs Spark Price Surge and Uncertainty in Central New York</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=94IPAL21Rnk" target="_blank" class="video-card reveal">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/94IPAL21Rnk/hqdefault.jpg" alt="Hard Hat Expo">
+            <img loading="lazy" src="https://img.youtube.com/vi/94IPAL21Rnk/hqdefault.jpg" alt="Hard Hat Expo">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>NY State Fairgrounds Hosts the Hard Hat Expo</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=zpAXnVeQuWc" target="_blank" class="video-card reveal delay-1">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/zpAXnVeQuWc/hqdefault.jpg" alt="Micron Day">
+            <img loading="lazy" src="https://img.youtube.com/vi/zpAXnVeQuWc/hqdefault.jpg" alt="Micron Day">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Micron Day at Syracuse University</h3></div>
         </a>
         <a href="https://www.youtube.com/watch?v=jRQwafiGb3U" target="_blank" class="video-card reveal delay-2">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/jRQwafiGb3U/hqdefault.jpg" alt="Earth Day at SUNY ESF">
+            <img loading="lazy" src="https://img.youtube.com/vi/jRQwafiGb3U/hqdefault.jpg" alt="Earth Day at SUNY ESF">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Earth Day at SUNY ESF Highlights Climate Anxiety &amp; Student Advocacy</h3></div>
@@ -257,7 +188,7 @@
   </section>
 
   <!-- Commentary -->
-  <section id="commentary" class="section" style="padding-top: 40px;">
+  <section id="commentary" class="section section-dark">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Commentary</span>
@@ -267,24 +198,24 @@
       <div class="video-grid">
         <a href="https://youtu.be/1uPuPEm_HjQ?si=TUiGE5SooBXGX0-L" target="_blank" class="video-card reveal">
           <div class="video-thumb">
-            <img src="https://images.sidearmdev.com/convert?url=https%3a%2f%2fdbukjj6eu5tsf.cloudfront.net%2fsidearm.sites%2fsyrclub.sidearmsports.com%2fimages%2f2024%2f6%2f20%2fClub-Basketball-Mens-CMYK-OrangeBckgrd-Horiz.jpg&type=webp" alt="Syracuse v. Binghamton Club Basketball">
+            <img loading="lazy" src="https://images.sidearmdev.com/convert?url=https%3a%2f%2fdbukjj6eu5tsf.cloudfront.net%2fsidearm.sites%2fsyrclub.sidearmsports.com%2fimages%2f2024%2f6%2f20%2fClub-Basketball-Mens-CMYK-OrangeBckgrd-Horiz.jpg&type=webp" alt="Syracuse v. Binghamton Club Basketball">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
           <div class="video-info"><h3>Syracuse v. Binghamton Club Basketball</h3></div>
         </a>
         <a href="https://youtube.com/live/AcxvSJ3x0yQ?feature=share" target="_blank" class="video-card reveal delay-1">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/AcxvSJ3x0yQ/hqdefault.jpg" alt="Play by Play Commentary">
+            <img loading="lazy" src="https://img.youtube.com/vi/AcxvSJ3x0yQ/hqdefault.jpg" alt="Play by Play Commentary">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
-          <div class="video-info"><h3>Play by Play Commentary <span style="font-size:0.8em; opacity:0.7;">(tune to 50 min for start)</span></h3></div>
+          <div class="video-info"><h3>Play by Play Commentary <span class="video-note">(tune to 50 min for start)</span></h3></div>
         </a>
         <a href="https://youtube.com/live/6ARI7H8l7oU?feature=share" target="_blank" class="video-card reveal delay-2">
           <div class="video-thumb">
-            <img src="https://img.youtube.com/vi/6ARI7H8l7oU/hqdefault.jpg" alt="Color Commentary">
+            <img loading="lazy" src="https://img.youtube.com/vi/6ARI7H8l7oU/hqdefault.jpg" alt="Color Commentary">
             <div class="play-overlay"><i class="fas fa-play"></i></div>
           </div>
-          <div class="video-info"><h3>Color Commentary <span style="font-size:0.8em; opacity:0.7;">(tune to 35 min for start)</span></h3></div>
+          <div class="video-info"><h3>Color Commentary <span class="video-note">(tune to 35 min for start)</span></h3></div>
         </a>
       </div>
     </div>
