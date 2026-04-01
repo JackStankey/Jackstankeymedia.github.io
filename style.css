@@ -217,7 +217,7 @@ a { color: inherit; text-decoration: none; }
 .hero-photo img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: center 15%;
 }
 
 .hero-eyebrow {
@@ -505,7 +505,7 @@ a { color: inherit; text-decoration: none; }
    ========================================== */
 .photo-divider {
   width: 100%;
-  height: 380px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -513,7 +513,7 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
   display: block;
 }
 
