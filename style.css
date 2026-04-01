@@ -499,37 +499,22 @@ a { color: inherit; text-decoration: none; }
 
 .card-link:hover { gap: 12px; }
 
+
 /* ==========================================
-   PHOTO GRID
+   PHOTO DIVIDERS
    ========================================== */
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.photo-item {
-  border-radius: 8px;
+.photo-divider {
+  width: 100%;
+  height: 380px;
   overflow: hidden;
-  border: 1px solid var(--border);
-  aspect-ratio: 4/3;
 }
 
-.photo-item img {
+.photo-divider img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
   display: block;
-  transition: transform 0.5s var(--ease);
-}
-
-.photo-item:hover img {
-  transform: scale(1.04);
-}
-
-@media (max-width: 640px) {
-  .photo-grid { grid-template-columns: 1fr; }
 }
 
 /* ==========================================
